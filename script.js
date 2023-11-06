@@ -12,6 +12,9 @@ function operate(a, b, operand) {
     case "/": {
       return divide(a, b);
     }
+    case "^": {
+      return getSquare(a, b);
+    }
   }
 }
 function add(a, b) {
@@ -25,4 +28,7 @@ function multiply(a, b) {
 }
 function divide(a, b) {
   return a / b;
+}
+function getSquare(a, b) {
+  return Math.pow(a, b);
 }
