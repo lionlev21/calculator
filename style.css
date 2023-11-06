@@ -1,3 +1,4 @@
+@import url("https://fonts.cdnfonts.com/css/ds-digital");
 * {
   margin: 0;
   padding: 0;
@@ -17,14 +18,29 @@ main {
   background-color: grey;
   border: 2px black solid;
   border-radius: 5px;
-  height: 600px;
+  height: 520px;
   width: 400px;
 }
+.display_container {
+  display: flex;
+  justify-content: center;
+}
 .display {
-  background-color: gray;
-  border: 2px solid transparent;
-  height: 10px;
-  width: 20px;
+  background-color: rgb(69, 105, 102);
+  height: 50px;
+  width: 250px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+.input {
+  font-family: "DS-Digital", sans-serif;
+  font-size: large;
+}
+.buttons_grid {
+  display: grid;
+  gap: 1px;
+  height: 400px;
 }
 
 footer {
