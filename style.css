@@ -16,8 +16,20 @@ main {
   background-color: gray;
   border: 2px black solid;
   border-radius: 10px;
-  height: 550px;
+  height: 580px;
   width: 340px;
+}
+.text_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.name {
+  font-family: "Eurostile MN", sans-serifs;
+  color: rgb(4, 80, 135);
+}
+.type {
+  font-family: serif;
 }
 .display_container {
   display: flex;
