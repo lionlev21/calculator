@@ -1,11 +1,9 @@
-@import url("https://fonts.cdnfonts.com/css/ds-digital");
 * {
   margin: 0;
   padding: 0;
   box-sizing: content-box;
-  font-family: monospace;
+  font-family: "Lato", sans-serif;
 }
-
 .flex_container {
   min-height: 100vh;
   min-width: 100%;
@@ -15,32 +13,56 @@
   align-items: center;
 }
 main {
-  background-color: grey;
+  background-color: gray;
   border: 2px black solid;
-  border-radius: 5px;
-  height: 520px;
-  width: 400px;
+  border-radius: 10px;
+  height: 550px;
+  width: 340px;
 }
 .display_container {
   display: flex;
   justify-content: center;
 }
 .display {
-  background-color: rgb(69, 105, 102);
-  height: 50px;
-  width: 250px;
+  background-color: rgb(39, 83, 79);
+  height: 60px;
+  width: 300px;
+  border-radius: 2px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
+  margin: 10px;
 }
 .input {
   font-family: "DS-Digital", sans-serif;
-  font-size: large;
+  font-size: 2em;
+}
+.buttons_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .buttons_grid {
   display: grid;
-  gap: 1px;
-  height: 400px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 300px;
+  height: 450px;
+}
+
+button {
+  border: none;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 13px;
+  cursor: pointer;
+}
+#delete,
+#clear {
+  grid-column: span 2;
+}
+#dot {
+  font-size: large;
 }
 
 footer {
@@ -53,5 +75,4 @@ footer {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  background-color: mintcream;
 }
