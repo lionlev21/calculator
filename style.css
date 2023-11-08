@@ -48,10 +48,12 @@ main {
 }
 .display {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
+  word-wrap: break-word;
+  word-break: break-all;
 }
-.input,
-.history {
+.input {
   font-family: "DS-Digital", sans-serif;
   font-size: 2em;
   margin-right: 10px;
@@ -77,9 +79,9 @@ button {
   font-size: 23px;
   cursor: pointer;
 }
-button:hover {
+.numbers:hover {
   background-color: #38b43e;
-  transition: 300ms ease-in-out;
+  transition: 500ms ease-in-out;
 }
 #delete,
 #clear {
