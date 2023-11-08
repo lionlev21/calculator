@@ -16,7 +16,7 @@ main {
   background-color: gray;
   border: 2px black solid;
   border-radius: 15px;
-  height: 600px;
+  height: 620px;
   width: 360px;
 }
 .text_container {
@@ -38,7 +38,7 @@ main {
 }
 .display {
   background-color: rgb(39, 83, 79);
-  height: 65px;
+  height: 80px;
   width: 300px;
   border-radius: 2px;
   display: flex;
@@ -53,10 +53,17 @@ main {
   word-wrap: break-word;
   word-break: break-all;
 }
-.input {
+.input,
+.history {
   font-family: "DS-Digital", sans-serif;
-  font-size: 2em;
+
   margin-right: 10px;
+}
+.input {
+  font-size: 3em;
+}
+.history {
+  font-size: 1.5em;
 }
 .buttons_container {
   display: flex;
