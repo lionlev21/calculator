@@ -16,8 +16,8 @@ main {
   background-color: gray;
   border: 2px black solid;
   border-radius: 15px;
-  height: 620px;
-  width: 360px;
+  height: 640px;
+  width: 380px;
 }
 .text_container {
   margin-top: 10px;
@@ -38,8 +38,8 @@ main {
 }
 .display {
   background-color: rgb(39, 83, 79);
-  height: 80px;
-  width: 300px;
+  height: 100px;
+  width: 320px;
   border-radius: 2px;
   display: flex;
   align-items: flex-end;
@@ -57,7 +57,7 @@ main {
 .history {
   font-family: "DS-Digital", sans-serif;
 
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .input {
   font-size: 3em;

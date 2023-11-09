@@ -8,13 +8,12 @@ const history = document.querySelector(".history");
 const equals = document.querySelector("#equals");
 const display = document.querySelector(".display");
 let firstNum = 0;
-let secondNum;
+let secondNum = 0;
 let operator = "";
 let operators = Array.from(operands);
 let lastOperator = "";
+let lastNumberString = "0";
 let result = 0;
-console.log(display.clientWidth);
-console.log(input.clientWidth);
 function operate(a, b, operand) {
   switch (operand) {
     case "+": {
@@ -45,34 +44,48 @@ function divide(a, b) {
 }
 
 c.addEventListener("click", () => {
-  if (input.textContent.length === 1) {
+  if (input.textContent.length === 1 || Number(lastNumberString) === NaN) {
     input.textContent = 0;
-    history.textContent = 0;
+    history.textContent = "";
+    lastNumberString = "0";
   } else {
     input.textContent = input.textContent.slice(
       0,
       input.textContent.length - 1
     );
+    lastNumberString = input.textContent;
   }
+  operators.forEach((op) => {
+    op.style.backgroundColor = "white";
+  });
 });
 ce.addEventListener("click", () => {
   input.textContent = 0;
   history.textContent = " ";
   firstNum = 0;
   secondNum = 0;
+  lastNumberString = "0";
   operator = "";
+  operators.forEach((op) => {
+    op.style.backgroundColor = "white";
+  });
 });
 numbers.forEach((number) => {
   number.addEventListener("click", () => {
-    if (input.textContent === "0") {
-      input.textContent = number.textContent;
+    if (input.clientWidth >= 250) {
+      alert("You reached the number limit");
     } else {
-      input.textContent = input.textContent.concat(number.textContent);
+      if (input.textContent === "0") {
+        input.textContent = number.textContent;
+        lastNumberString = number.textContent;
+      } else {
+        input.textContent = input.textContent.concat(number.textContent);
+        lastNumberString = lastNumberString.concat(number.textContent);
+      }
+      operators.forEach((op) => {
+        op.style.backgroundColor = "white";
+      });
     }
-
-    operators.forEach((op) => {
-      op.style.backgroundColor = "white";
-    });
   });
 });
 
@@ -81,6 +94,7 @@ dot.addEventListener("click", () => {
     alert("You cant put more than one point at a number");
   } else {
     input.textContent = input.textContent + dot.textContent;
+    lastNumberString = lastNumberString + dot.textContent;
   }
 });
 operands.forEach((operand) => {
@@ -97,12 +111,19 @@ operands.forEach((operand) => {
   });
 });
 equals.addEventListener("click", () => {
-  secondNum = input.textContent;
-  firstNum = Number(firstNum);
-  secondNum = Number(secondNum);
-  result = operate(firstNum, secondNum, operator);
-  input.textContent = result;
-  history.textContent = "";
-  firstNum = result;
-  secondNum = 0;
+  if (lastOperator === "") {
+    input.textContent = lastNumberString;
+  } else {
+    secondNum = input.textContent;
+    firstNum = Number(firstNum);
+    secondNum = Number(secondNum);
+    result = operate(firstNum, secondNum, operator);
+    lastNumberString = result;
+    input.textContent = lastNumberString;
+    history.textContent = "";
+    lastOperator = "";
+    firstNum = result;
+    secondNum = 0;
+  }
+  lastNumberString = input.textContent;
 });
