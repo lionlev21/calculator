@@ -64,7 +64,8 @@ function resetScreen() {
 }
 function clear() {
   input.textContent = "0";
-  history.textContent = "0";
+  input.style.fontSize = "3em";
+  history.textContent = "";
   firstNum = "";
   secondNum = "";
   currentOperator = null;
@@ -79,7 +80,14 @@ function addPoint() {
   }
 }
 function deleteNumber() {
-  input.textContent = input.textContent.toString().slice(0, -1);
+  if (input.clientHeight === 40) {
+    input.style.fontSize = "3em";
+  }
+  if (input.textContent.length === 1) {
+    input.textContent = "0";
+  } else {
+    input.textContent = input.textContent.toString().slice(0, -1);
+  }
 }
 function setOperation(operator) {
   if (currentOperator != null) evaluate();
@@ -98,8 +106,38 @@ function evaluate() {
   input.textContent = roundResult(
     operate(firstNum, secondNum, currentOperator)
   );
-  history.textContent = `${firstNum} ${currentOperator} ${secondNum}`;
+  if (input.clientHeight === 96) {
+    input.style.fontSize = "2.5em";
+  } else {
+    input.style.fontSize = "3em";
+  }
+  history.textContent = "";
   currentOperator = null;
+}
+function handleInput(e) {
+  if (e.key >= 0 && e.key <= 9) createNumber(e.key);
+  if (e.key === "=" || e.key === "Enter") evaluate();
+  if (e.key === ".") addPoint();
+  if (e.key === "Backspace") deleteNumber();
+  if (e.key === "Escape") clear();
+  if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/")
+    setOperation(convertOperator(e.key));
+}
+function convertOperator(op) {
+  switch (op) {
+    case "+": {
+      return "+";
+    }
+    case "-": {
+      return "-";
+    }
+    case "*": {
+      return "X";
+    }
+    case "/": {
+      return "÷";
+    }
+  }
 }
 
 ce.addEventListener("click", clear);
@@ -112,3 +150,5 @@ numbers.forEach((number) => {
 operators.forEach((op) => {
   op.addEventListener("click", () => setOperation(op.textContent));
 });
+
+document.addEventListener("keydown", handleInput);
