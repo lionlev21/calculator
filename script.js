@@ -1,4 +1,4 @@
-const operands = document.querySelectorAll(".operands");
+const operators = document.querySelectorAll(".operators");
 const numbers = document.querySelectorAll(".numbers");
 const c = document.querySelector("#delete");
 const dot = document.querySelector("#dot");
@@ -6,13 +6,10 @@ const ce = document.querySelector("#clear");
 const input = document.querySelector(".input");
 const history = document.querySelector(".history");
 const equals = document.querySelector("#equals");
-const display = document.querySelector(".display");
 let firstNum = "";
 let secondNum = "";
-let operator = "";
-let operators = Array.from(operands);
-let lastOperator = "";
-let operatorFlag = false;
+let currentOperator = null;
+let shouldResetScreen = false;
 let result = 0;
 
 function operate(a, b, operand) {
@@ -52,128 +49,66 @@ function divide(a, b) {
 function roundResult(number) {
   return Math.round(number * 1000) / 1000;
 }
-function changeToWhite() {
-  operators.forEach((op) => {
-    op.style.backgroundColor = "white";
-  });
+function createNumber(number) {
+  if (input.textContent === "0" || shouldResetScreen) {
+    resetScreen();
+  }
+  if (input.clientWidth <= 300) {
+    input.textContent += number;
+  }
 }
 
-c.addEventListener("click", () => {
-  if (input.textContent.length === 1 || Number(lastNumberString) === NaN) {
-    if (!operatorFlag) {
-      firstNum = firstNum.slice(0, firstNum.length - 1);
-    } else {
-      secondNum = secondNum.slice(0, secondNum.length - 1);
-    }
-    input.textContent = 0;
-    history.textContent = "";
-  } else {
-    input.textContent = input.textContent.slice(
-      0,
-      input.textContent.length - 1
-    );
-    lastNumberString = input.textContent;
+function resetScreen() {
+  input.textContent = "";
+  shouldResetScreen = false;
+}
+function clear() {
+  input.textContent = "0";
+  history.textContent = "0";
+  firstNum = "";
+  secondNum = "";
+  currentOperator = null;
+}
+function addPoint() {
+  if (shouldResetScreen) resetScreen();
+  if (input.textContent === "") {
+    input.textContent = "0";
   }
-  changeToWhite();
-});
-ce.addEventListener("click", () => {
-  input.textContent = 0;
-  history.textContent = " ";
-  firstNum = "0";
-  secondNum = "0";
-  operator = "";
-  operatorFlag = false;
-  changeToWhite();
-});
-numbers.forEach((number) => {
-  number.addEventListener("click", () => {
-    if (input.clientWidth >= 300) {
-      alert("You reached the number limit");
-    } else {
-      if (!operatorFlag) {
-        if (input.textContent === "0") {
-          firstNum = number.textContent;
-          input.textContent = number.textContent;
-          lastNumberString = number.textContent;
-        } else {
-          firstNum = firstNum.concat(number.textContent);
-          input.textContent = input.textContent.concat(number.textContent);
-          lastNumberString = lastNumberString.concat(number.textContent);
-        }
-      } else {
-        if (input.textContent === firstNum || input.textContent === result) {
-          secondNum = number.textContent;
-          input.textContent = number.textContent;
-          lastNumberString = number.textContent;
-        } else {
-          secondNum = secondNum.concat(number.textContent);
-          input.textContent = input.textContent.concat(number.textContent);
-          lastNumberString = lastNumberString.concat(number.textContent);
-        }
-      }
-      changeToWhite();
-    }
-  });
-});
+  if (!input.textContent.includes(".")) {
+    input.textContent += ".";
+  }
+}
+function deleteNumber() {
+  input.textContent = input.textContent.toString().slice(0, -1);
+}
+function setOperation(operator) {
+  if (currentOperator != null) evaluate();
+  firstNum = input.textContent;
+  currentOperator = operator;
+  history.textContent = `${firstNum} ${currentOperator}`;
+  shouldResetScreen = true;
+}
+function evaluate() {
+  if (currentOperator === null || shouldResetScreen) return;
+  if (currentOperator === "÷" && input.textContent === "0") {
+    alert("you cant divide by 0");
+    return;
+  }
+  secondNum = input.textContent;
+  input.textContent = roundResult(
+    operate(firstNum, secondNum, currentOperator)
+  );
+  history.textContent = `${firstNum} ${currentOperator} ${secondNum}`;
+  currentOperator = null;
+}
 
-dot.addEventListener("click", () => {
-  if (input.textContent.includes(".")) {
-    alert("You cant put more than one point at a number");
-  } else {
-    if (!operatorFlag) {
-      firstNum = firstNum + dot.textContent;
-    } else {
-      secondNum = secondNum + dot.textContent;
-    }
-    input.textContent = input.textContent + dot.textContent + "";
-  }
+ce.addEventListener("click", clear);
+c.addEventListener("click", deleteNumber);
+equals.addEventListener("click", evaluate);
+dot.addEventListener("click", addPoint);
+numbers.forEach((number) => {
+  number.addEventListener("click", () => createNumber(number.textContent));
 });
-operands.forEach((operand) => {
-  operand.addEventListener("click", () => {
-    operatorFlag = true;
-    if (secondNum != "") {
-      firstNum = Number(firstNum);
-      secondNum = Number(secondNum);
-      result = operate(firstNum, secondNum, operator);
-      input.textContent = result;
-      if (input.clientHeight == 96) {
-        result = roundResult(result);
-        input.textContent = result;
-      }
-      history.textContent = input.textContent.concat("", operand.textContent);
-      firstNum = String(result);
-      secondNum = "";
-    } else {
-      history.textContent = firstNum.concat("", operand.textContent);
-      if (secondNum === "0") {
-        input.textContent = firstNum;
-      } else {
-        input.textContent = secondNum;
-      }
-    }
-    changeToWhite();
-    operand.style.backgroundColor = "#38b43e";
-    operator = operand.textContent;
-  });
-});
-equals.addEventListener("click", () => {
-  if (operator === "") {
-    input.textContent = firstNum;
-  } else {
-    firstNum = Number(firstNum);
-    secondNum = Number(secondNum);
-    result = operate(firstNum, secondNum, operator);
-    input.textContent = result;
-    if (input.clientHeight == 96) {
-      result = roundResult(result);
-      input.textContent = result;
-    }
-    history.textContent = "";
-    operator = "";
-    lastOperator = "";
-    firstNum = String(result);
-    secondNum = "0";
-  }
-  operatorFlag = false;
-  changeToWhite();
+operators.forEach((op) => {
+  op.addEventListener("click", () => setOperation(op.textContent));
 });

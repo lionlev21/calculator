@@ -86,7 +86,8 @@ button {
   font-size: 23px;
   cursor: pointer;
 }
-.numbers:hover {
+.numbers:hover,
+.operators:hover {
   background-color: #38b43e;
   transition: 500ms ease-in-out;
 }
