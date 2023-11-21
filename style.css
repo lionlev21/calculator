@@ -30,7 +30,7 @@ main {
   color: rgb(0, 29, 124);
 }
 .type {
-  font-family: "Roboto", sans-serif;
+  font-family: "Courier New", Courier, monospace, sans-serif;
   font-size: 18px;
 }
 .display_container {
